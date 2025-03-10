@@ -1,4 +1,4 @@
-// script.js
+// GSAP script.js
 document.addEventListener("DOMContentLoaded", function () {
   gsap.registerPlugin(ScrollTrigger);
 
@@ -275,5 +275,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Now, scrolling up in reverse triggers these .call() points in reverse,
     // so the overlay classes remain correct in both directions.
+  } else {
+    // For mobile view, remove overlay and scale all cards to 1
+    const allCards = document.querySelectorAll(".card");
+    allCards.forEach((card) => {
+      card.classList.remove("overlay-card");
+      gsap.set(card, {
+        scale: 1,
+        transform: "none",
+      });
+    });
   }
 });
