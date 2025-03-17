@@ -1,0 +1,147 @@
+/* The section that will be pinned */
+.section2-cards-section {
+    /* We rely on GSAP ScrollTrigger to pin this section */
+    /* min-height: 100vh; */
+    /* It already has styling from webflow */
+    /* display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; */
+    position: relative;
+}
+
+/* Container for the 5 cards */
+.section2-cards-container {
+    position: relative !important;
+    width: 800px;
+    height: 400px;
+    margin: 0 auto;
+    margin-bottom: 40px;
+    /* Optional: Uncomment to visualize the container boundary
+  border: 1px solid red; 
+  */
+}
+
+/* Common card styles */
+.section2-card {
+    position: absolute;
+    width: 70%;
+    height: 400px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: #fff;
+    user-select: none;
+}
+
+/* Initial positions and stacking order */
+.section2-card-1 {
+    /* background-color: green; */
+    /* Blue 1st image - hitler */
+    background-image: url(https://cdn.prod.website-files.com/67af48a4d612ba71b993ae7d/67c794c527be7166dd72df50_light%20-%20blue.svg);
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 3;
+    /* front */
+}
+
+.section2-card-2 {
+    /* background-color: blue; */
+    /* purple image */
+    background-image: url(https://cdn.prod.website-files.com/67af48a4d612ba71b993ae7d/67c794c24d4f0cc4dc569b98_Diana%20-%20Purple.svg);
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    top: 40%;
+    left: 70%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    scale: 0.8;
+    /* behind card 1 */
+}
+
+.section2-card-3 {
+    /*  background-color: orange; */
+    /* Red image */
+    background-image: url(https://cdn.prod.website-files.com/67af48a4d612ba71b993ae7d/67c794c536016c969295190f_Winston%20-%20Red.svg);
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    top: 40%;
+    left: 20%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    scale: 0.8;
+    /* behind card 1 and 2 */
+}
+
+.section2-card-4 {
+    /* background-color: blueviolet; */
+    /* Yellow Image */
+    background-image: url(https://cdn.prod.website-files.com/67af48a4d612ba71b993ae7d/67c794c623f3c19b0686082c_yellow-stripes.svg);
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    top: 30%;
+    left: 80%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    scale: 0.6;
+    /* behind card 1 and 2 */
+}
+
+.section2-card-5 {
+    /* background-color: cadetblue; */
+    /* 2nd blue Image - female */
+    background-image: url(https://cdn.prod.website-files.com/67af48a4d612ba71b993ae7d/67d823471cb8af6e20227796_Frame%202147225724.svg);
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    top: 30%;
+    left: -5%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    scale: 0.6;
+    /* behind card 1 and 2 */
+}
+
+.section2-overlay-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+    z-index: 1;
+    border-radius: 8px;
+    /* filter: blur(1px); */
+}
+
+/* Mobile responsiveness:
+   On smaller devices, we disable the pinned animation
+   and simply stack the cards in a column. */
+@media (max-width: 767px) {
+    .section2-cards-container {
+        width: 100%;
+        height: auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .section2-card {
+        position: static;
+        transform: none;
+        margin: 1rem 0;
+        width: 80%;
+        height: 200px;
+    }
+}
