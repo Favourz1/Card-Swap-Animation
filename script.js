@@ -13,6 +13,25 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
+  // Helper function to update header text based on active card
+  function updateHeaderText(cardNumber) {
+    const headerElement = document.querySelector(".cards-section-header");
+    if (!headerElement) return;
+
+    // Define card-specific content
+    const cardContent = {
+      1: "Card 1: Project Planning & Scheduling",
+      2: "Card 2: Cost Estimation & Quantity Surveying",
+      3: "Card 3: Site Management & Safety Protocols",
+      4: "Card 4: Construction Materials & Methods",
+      5: "Card 5: Quality Control & Assurance",
+      1000: "Card Mobile: Evaluation",
+    };
+
+    // Update the header text
+    headerElement.textContent = cardContent[cardNumber] || "Cards Animation";
+  }
+
   // Only enable pinned scroll animation on screens >= 768px
   if (window.innerWidth >= 768) {
     const tl = gsap.timeline({
@@ -23,6 +42,21 @@ document.addEventListener("DOMContentLoaded", function () {
         scrub: true,
         pin: true,
         // markers: true, // Uncomment for debugging
+        onUpdate: (self) => {
+          // Determine which section we're in based on progress
+          const progress = self.progress;
+          if (progress < 0.2) {
+            updateHeaderText(1);
+          } else if (progress < 0.4) {
+            updateHeaderText(2);
+          } else if (progress < 0.6) {
+            updateHeaderText(4);
+          } else if (progress < 0.8) {
+            updateHeaderText(5);
+          } else {
+            updateHeaderText(3);
+          }
+        },
       },
     });
 
@@ -39,7 +73,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Immediately declare which card is active at the start (card-1)
     // This .call() fires at the very beginning (time=0)
-    tl.call(() => setActiveCard(".card-1"), null, 0);
+    tl.call(
+      () => {
+        setActiveCard(".card-1");
+        updateHeaderText(1);
+      },
+      null,
+      0
+    );
 
     // STEP 1:
     // Move Card 2 to center; Card 1 goes near-left behind; Card 3 far-left behind
@@ -100,7 +141,10 @@ document.addEventListener("DOMContentLoaded", function () {
         0
       )
       // After step 1 completes, card-2 is active
-      .call(() => setActiveCard(".card-2"));
+      .call(() => {
+        setActiveCard(".card-2");
+        updateHeaderText(2);
+      });
 
     // STEP 2:
     // Move Card 4 to center; Card 2 goes near-left behind; Card 1 far-left behind
@@ -157,7 +201,10 @@ document.addEventListener("DOMContentLoaded", function () {
         "<"
       )
       // After step 2 completes, card-4 is active
-      .call(() => setActiveCard(".card-4"));
+      .call(() => {
+        setActiveCard(".card-4");
+        updateHeaderText(4);
+      });
 
     // STEP 3:
     // Move Card 5 to center; Card 4 goes near-left behind; Card 2 far-left behind
@@ -214,7 +261,10 @@ document.addEventListener("DOMContentLoaded", function () {
         "<"
       )
       // After step 3 completes, card-5 is active
-      .call(() => setActiveCard(".card-5"));
+      .call(() => {
+        setActiveCard(".card-5");
+        updateHeaderText(5);
+      });
 
     // STEP 4:
     // Move Card 3 to center; Card 5 goes near-left behind; Card 4 far-left behind
@@ -271,10 +321,31 @@ document.addEventListener("DOMContentLoaded", function () {
         "<"
       )
       // After step 4 completes, card-3 is active
-      .call(() => setActiveCard(".card-3"));
+      .call(() => {
+        setActiveCard(".card-3");
+        updateHeaderText(3);
+      });
 
-    // Now, scrolling up in reverse triggers these .call() points in reverse,
-    // so the overlay classes remain correct in both directions.
+    // Handle edge case: if user quickly scrolls or jumps to a specific section
+    ScrollTrigger.addEventListener("scrollEnd", function () {
+      const progress = tl.scrollTrigger.progress;
+      if (progress < 0.2) {
+        setActiveCard(".card-1");
+        updateHeaderText(1);
+      } else if (progress < 0.4) {
+        setActiveCard(".card-2");
+        updateHeaderText(2);
+      } else if (progress < 0.6) {
+        setActiveCard(".card-4");
+        updateHeaderText(4);
+      } else if (progress < 0.8) {
+        setActiveCard(".card-5");
+        updateHeaderText(5);
+      } else {
+        setActiveCard(".card-3");
+        updateHeaderText(3);
+      }
+    });
   } else {
     // For mobile view, remove overlay and scale all cards to 1
     const allCards = document.querySelectorAll(".card");
@@ -285,5 +356,8 @@ document.addEventListener("DOMContentLoaded", function () {
         transform: "none",
       });
     });
+
+    // Set default header text for mobile
+    updateHeaderText(1000);
   }
 });

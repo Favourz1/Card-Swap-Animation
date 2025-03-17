@@ -26,11 +26,18 @@ body {
 /* The section that will be pinned */
 .cards-section {
     /* We rely on GSAP ScrollTrigger to pin this section */
-    min-height: 100vh;
+    /* min-height: 100vh; */
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     position: relative;
+}
+
+.cards-section-header {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 2rem;
 }
 
 /* Container for the 3 cards */
